@@ -240,6 +240,10 @@ body {
 
 .action-btn.cooldown {
   opacity: 0.25;
+}
+
+.action-btn.disabled {
+  opacity: 0.25;
   pointer-events: none;
 }
 

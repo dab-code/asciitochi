@@ -237,11 +237,13 @@ function updateUI() {
 
   actionBtns.forEach(btn => {
     const actionId = btn.dataset.action;
-    if (actionId === 'game') {
-      btn.classList.toggle('cooldown', !pet.alive || pet.stage === 'egg' || pet.sleeping);
-    } else {
-      btn.classList.toggle('cooldown', !actions.canDo(actionId, pet));
-    }
+    const isSleeping = pet.sleeping && actionId !== 'sleep';
+    const cantDo = actionId === 'game'
+      ? (!pet.alive || pet.stage === 'egg')
+      : !actions.canDo(actionId, pet) && !isSleeping;
+    // Sleeping: dimmed but tappable (to wake). Cooldown/unavailable: fully blocked.
+    btn.classList.toggle('cooldown', isSleeping && !cantDo);
+    btn.classList.toggle('disabled', cantDo);
   });
 }
 

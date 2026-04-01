@@ -154,19 +154,90 @@ export class Pet {
   }
 
   getStatusMessage() {
-    if (!this.alive) return `${this.name} has passed away...`;
-    if (this.sleeping) return `${this.name} is sleeping... zzz`;
+    const n = this.name;
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    if (!this.alive) return pick([
+      `${n} has passed away...`,
+      `Goodbye, ${n}...`,
+      `${n} is at peace now.`,
+    ]);
+    if (this.sleeping) return pick([
+      `${n} is sleeping... zzz`,
+      `${n} is dreaming about snacks.`,
+      `Shhh... ${n} is napping.`,
+      `${n} mumbles in their sleep.`,
+      `${n} is snoring softly.`,
+    ]);
     if (this.stage === STAGES.EGG) return 'The egg is wiggling...';
-    if (this.health < 20) return `${this.name} is feeling very sick!`;
-    if (this.hunger > 80) return `${this.name} is starving!`;
-    if (this.hunger > 60) return `${this.name} is hungry...`;
-    if (this.happiness < 20) return `${this.name} is very sad...`;
-    if (this.happiness < 40) return `${this.name} seems bored.`;
-    if (this.energy < 20) return `${this.name} is exhausted...`;
-    if (this.cleanliness < 20) return `${this.name} needs a bath!`;
-    if (this.happiness > 80 && this.hunger < 30) return `${this.name} is feeling great!`;
-    if (this.happiness > 60) return `${this.name} is content.`;
-    return `${this.name} is doing okay.`;
+
+    // Urgent needs (prioritized)
+    if (this.health < 20) return pick([
+      `${n} is feeling very sick!`,
+      `${n} looks pale and weak...`,
+      `${n} needs help!`,
+    ]);
+    if (this.hunger > 80) return pick([
+      `${n} is starving!`,
+      `${n}'s tummy is growling loudly!`,
+      `${n} stares at you... feed me?`,
+      `${n} is eyeing your snacks.`,
+    ]);
+    if (this.hunger > 60) return pick([
+      `${n} is getting hungry...`,
+      `${n}'s stomach rumbles.`,
+      `${n} sniffs around for food.`,
+    ]);
+    if (this.happiness < 20) return pick([
+      `${n} is really down...`,
+      `${n} sits in the corner quietly.`,
+      `${n} looks like they need a friend.`,
+    ]);
+    if (this.energy < 20) return pick([
+      `${n} can barely keep their eyes open.`,
+      `${n} yawns widely...`,
+      `${n} is dragging their feet.`,
+    ]);
+    if (this.cleanliness < 20) return pick([
+      `${n} is getting a bit smelly...`,
+      `${n} leaves little footprints everywhere.`,
+      `${n} could really use a bath.`,
+    ]);
+
+    // Mood-based idle thoughts
+    if (this.happiness > 80 && this.hunger < 30) return pick([
+      `${n} is beaming with joy!`,
+      `${n} does a happy little dance.`,
+      `${n} feels loved and full.`,
+      `Life is good for ${n}!`,
+    ]);
+    if (this.happiness > 70) return pick([
+      `${n} is in a great mood!`,
+      `${n} hums a little tune.`,
+      `${n} looks at you adoringly.`,
+      `${n} bounces around happily.`,
+      `${n} seems really content.`,
+    ]);
+    if (this.happiness > 50) return pick([
+      `${n} is doing alright.`,
+      `${n} looks around curiously.`,
+      `${n} stretches and yawns.`,
+      `${n} is chilling.`,
+      `${n} watches a bug crawl by.`,
+      `${n} tilts their head at you.`,
+    ]);
+    if (this.happiness > 30) return pick([
+      `${n} seems a bit restless.`,
+      `${n} fidgets around.`,
+      `${n} looks like they want attention.`,
+      `${n} sighs softly.`,
+    ]);
+    return pick([
+      `${n} stares into the distance.`,
+      `${n} is being quiet.`,
+      `${n} seems lost in thought.`,
+      `${n} is just hanging out.`,
+    ]);
   }
 
   getStageLabel() {
