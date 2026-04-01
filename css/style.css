@@ -178,14 +178,12 @@ body {
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.2;
-  text-align: center;
+  text-align: left;
   color: var(--text);
   text-shadow: var(--glow);
   white-space: pre;
   min-height: 168px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
 }
 
 #pet-info {
