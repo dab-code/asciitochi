@@ -53,7 +53,7 @@ export class Pet {
     this.cleanliness = 80;
     this.health = 100;
     this.age = 0;
-    this.stage = STAGES.EGG;
+    this.stage = STAGES.BABY;
     this.alive = true;
     this.careHistory = [];
     this.birthTime = Date.now();
