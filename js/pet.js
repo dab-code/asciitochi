@@ -4,6 +4,7 @@ import {
   TEMPERAMENTS, APPETITES, rollPersonality,
   getPersonalityQuirkMessage, getSpeciesFlavorMessage,
 } from './personality.js';
+import { Brain } from './brain.js';
 
 export const STAGES = {
   EGG: 'egg',
@@ -65,6 +66,7 @@ export class Pet {
     this.deathTimer = 0;
     this.sleeping = false;
     this.personality = rollPersonality();
+    this.brain = new Brain();
     this._tickCount = 0;
   }
 
@@ -83,6 +85,7 @@ export class Pet {
     p.deathTimer = data.deathTimer || 0;
     p.sleeping = data.sleeping || false;
     p.personality = data.personality || rollPersonality();
+    p.brain = Brain.fromSave(data.brain);
     return p;
   }
 
@@ -153,6 +156,9 @@ export class Pet {
     if (isNight && this.energy < 30 && !this.sleeping && this.stage !== STAGES.EGG) {
       this.sleeping = true;
     }
+
+    // Brain tick
+    this.brain.tick(this);
   }
 
   getDisplayState() {
@@ -214,8 +220,12 @@ export class Pet {
       `${n} could really use a bath.`,
     ]);
 
-    // ~30% chance of personality quirk or species flavor in idle
-    if (Math.random() < 0.3) {
+    // Brain-driven message (wants, events, activities, time-awareness)
+    const brainMsg = this.brain.getMessage(this);
+    if (brainMsg) return brainMsg;
+
+    // ~25% chance of personality quirk or species flavor
+    if (Math.random() < 0.25) {
       const msg = Math.random() < 0.5
         ? getPersonalityQuirkMessage(this.personality, n)
         : getSpeciesFlavorMessage(this.species, n);

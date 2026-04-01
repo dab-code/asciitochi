@@ -63,6 +63,7 @@ let clock = null;
 let tickInterval = null;
 let saveInterval = null;
 let uiInterval = null;
+let msgTimeout = null;
 let lastNightState = null;
 
 // ============================================================
@@ -204,12 +205,14 @@ function startGame() {
 
   uiInterval = setInterval(updateUI, 500);
   saveInterval = setInterval(() => savePet(pet), 30000);
+  scheduleNextMessage();
 }
 
 function stopGame() {
   if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
   if (uiInterval) { clearInterval(uiInterval); uiInterval = null; }
   if (saveInterval) { clearInterval(saveInterval); saveInterval = null; }
+  if (msgTimeout) { clearTimeout(msgTimeout); msgTimeout = null; }
   if (renderer) renderer.stop();
 }
 
@@ -236,8 +239,6 @@ function updateUI() {
   petStageEl.textContent = pet.stage === 'egg'
     ? ''
     : `${pet.getStageLabel()} \u00B7 ${getPersonalityLabel(pet.personality)}`;
-  statusMsg.textContent = pet.getStatusMessage();
-
   actionBtns.forEach(btn => {
     const actionId = btn.dataset.action;
     if (pet.sleeping) {
@@ -252,6 +253,19 @@ function updateUI() {
       btn.classList.toggle('disabled', cantDo);
     }
   });
+}
+
+function scheduleNextMessage() {
+  if (!pet) return;
+  // Brain events show immediately; otherwise 5-10s random interval
+  if (pet.brain.pendingEvent) {
+    statusMsg.textContent = pet.getStatusMessage();
+    msgTimeout = setTimeout(scheduleNextMessage, 2000);
+  } else {
+    statusMsg.textContent = pet.getStatusMessage();
+    const delay = 5000 + Math.random() * 5000;
+    msgTimeout = setTimeout(scheduleNextMessage, delay);
+  }
 }
 
 function setBar(barEl, valEl, value) {
@@ -305,6 +319,7 @@ function wireActions() {
 
       const result = actions.doAction(actionId, pet);
       if (result) {
+        pet.brain.onInteraction(actionId, pet);
         statusMsg.textContent = result.message;
         renderer.playTemp(pet.species, pet.stage, result.animation, result.duration || 2000);
         savePet(pet);

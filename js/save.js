@@ -20,6 +20,7 @@ export function savePet(pet) {
     deathTimer: pet.deathTimer,
     sleeping: pet.sleeping,
     personality: pet.personality,
+    brain: pet.brain.toSave(),
   };
   localStorage.setItem(SAVE_KEY, JSON.stringify(data));
 }
