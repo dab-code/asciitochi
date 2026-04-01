@@ -403,6 +403,7 @@ body {
   text-shadow: var(--glow);
   white-space: pre;
   margin-bottom: 20px;
+  min-height: 108px;
 }
 
 #new-game-form {
