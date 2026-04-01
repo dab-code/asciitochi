@@ -165,6 +165,14 @@ export class Pet {
     if (!this.alive) return 'dead';
     if (this.sleeping) return 'sleep';
     if (this.health < 20) return 'sick';
+    // Brain-driven display states
+    const act = this.brain.activity;
+    if (act) {
+      if (act.name === 'playing_alone') return 'play';
+      if (act.name === 'exploring') return 'happy';
+      if (act.name === 'grooming') return 'eat';
+    }
+    if (this.brain.currentWant === 'play') return 'happy';
     if (this.happiness > 80) return 'happy';
     return 'idle';
   }
