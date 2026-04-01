@@ -1,18 +1,18 @@
 const CACHE_NAME = 'asciitochi-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/main.js',
-  '/js/pet.js',
-  '/js/renderer.js',
-  '/js/sprites.js',
-  '/js/species.js',
-  '/js/actions.js',
-  '/js/minigames.js',
-  '/js/clock.js',
-  '/js/save.js',
-  '/manifest.json',
+  './',
+  './index.html',
+  './css/style.css',
+  './js/main.js',
+  './js/pet.js',
+  './js/renderer.js',
+  './js/sprites.js',
+  './js/species.js',
+  './js/actions.js',
+  './js/minigames.js',
+  './js/clock.js',
+  './js/save.js',
+  './manifest.json',
 ];
 
 self.addEventListener('install', (e) => {
