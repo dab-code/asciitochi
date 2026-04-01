@@ -6,35 +6,40 @@
 }
 
 :root {
-  --bg: #0a0a0a;
-  --device-bg: #0d1117;
-  --text: #33ff33;
-  --text-dim: #1a8a1a;
-  --bar-bg: #1a1a2e;
-  --bar-fill: #33ff33;
-  --bar-low: #ff3333;
-  --bar-mid: #ffaa00;
-  --border: #1a3a1a;
-  --btn-bg: #111a11;
-  --btn-hover: #1a2e1a;
-  --btn-active: #2a4a2a;
-  --glow: 0 0 10px rgba(51, 255, 51, 0.3);
-  --status-bg: #0a0f0a;
-  --modal-bg: #0d1117ee;
+  --bg: #232136;
+  --device-bg: #2d2b3d;
+  --text: #f0e6d3;
+  --text-dim: #a89dba;
+  --bar-bg: #3d3856;
+  --bar-hunger: #f7a072;
+  --bar-happy: #c3a6f7;
+  --bar-energy: #f7d372;
+  --bar-clean: #72d4a3;
+  --bar-low: #e85d75;
+  --bar-mid: #f0b775;
+  --border: #443d5e;
+  --btn-bg: #3d3856;
+  --btn-hover: #4d4570;
+  --btn-active: #5e5488;
+  --status-bg: #262339;
+  --modal-bg: #2d2b3dee;
   --font-mono: 'Courier New', 'Consolas', 'Monaco', monospace;
+  --pet-color: #f0e6d3;
 }
 
 /* Night theme */
 .night {
-  --text: #ffaa33;
-  --text-dim: #8a5a1a;
-  --bar-fill: #ffaa33;
-  --border: #3a2a1a;
-  --btn-bg: #1a1108;
-  --btn-hover: #2e1f0a;
-  --btn-active: #4a3518;
-  --glow: 0 0 10px rgba(255, 170, 51, 0.3);
-  --status-bg: #0f0a05;
+  --bg: #1a1828;
+  --device-bg: #221f33;
+  --text: #e0d4c0;
+  --text-dim: #8a7ea0;
+  --bar-bg: #332e4a;
+  --border: #3a3452;
+  --btn-bg: #332e4a;
+  --btn-hover: #433d5e;
+  --btn-active: #534b72;
+  --status-bg: #1c1a2a;
+  --pet-color: #d4c8b0;
 }
 
 body {
@@ -65,30 +70,19 @@ body {
   #device {
     min-height: 667px;
     max-height: 812px;
-    border-radius: 16px;
-    border: 2px solid var(--border);
-    box-shadow: var(--glow), 0 0 40px rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
   }
 
   body {
-    background:
-      radial-gradient(circle at 50% 50%, #111 0%, #050505 100%);
+    background: linear-gradient(135deg, #1a1828 0%, #2d2b3d 50%, #1a1828 100%);
   }
 }
 
-/* === Scanline Overlay === */
+/* === Scanline Overlay (disabled — kept for structure) === */
 #scanlines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
-  );
-  pointer-events: none;
-  z-index: 100;
+  display: none;
 }
 
 /* === Header === */
@@ -96,10 +90,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-size: 13px;
   border-bottom: 1px solid var(--border);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 #clock {
@@ -112,10 +106,10 @@ body {
 
 /* === Stats === */
 #stats {
-  padding: 10px 16px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -124,7 +118,7 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .stat-label {
@@ -135,25 +129,30 @@ body {
 
 .stat-bar {
   flex: 1;
-  height: 10px;
+  height: 8px;
   background: var(--bar-bg);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .stat-fill {
   height: 100%;
-  background: var(--bar-fill);
-  border-radius: 2px;
+  border-radius: 4px;
   transition: width 0.5s ease, background-color 0.5s ease;
 }
 
+/* Per-stat colors */
+#hunger-bar { background: var(--bar-hunger); }
+#happy-bar { background: var(--bar-happy); }
+#energy-bar { background: var(--bar-energy); }
+#clean-bar { background: var(--bar-clean); }
+
 .stat-fill.low {
-  background: var(--bar-low);
+  background: var(--bar-low) !important;
 }
 
 .stat-fill.mid {
-  background: var(--bar-mid);
+  background: var(--bar-mid) !important;
 }
 
 .stat-val {
@@ -179,8 +178,7 @@ body {
   font-size: 14px;
   line-height: 1.2;
   text-align: left;
-  color: var(--text);
-  text-shadow: var(--glow);
+  color: var(--pet-color);
   white-space: pre;
   min-height: 168px;
   display: inline-block;
@@ -194,14 +192,14 @@ body {
 #pet-name {
   font-size: 14px;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 #pet-stage {
   font-size: 11px;
   color: var(--text-dim);
   margin-top: 2px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 /* === Actions === */
@@ -209,8 +207,8 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 14px 16px;
   border-top: 1px solid var(--border);
 }
 
@@ -220,7 +218,7 @@ body {
   height: 48px;
   border: 1px solid var(--border);
   background: var(--btn-bg);
-  border-radius: 8px;
+  border-radius: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -241,7 +239,7 @@ body {
 }
 
 .action-btn.cooldown {
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -260,7 +258,8 @@ body {
   display: flex;
   align-items: center;
   background: var(--status-bg);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  color: var(--text-dim);
 }
 
 #status-msg {
@@ -278,12 +277,13 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  backdrop-filter: blur(4px);
 }
 
 #modal-content {
   background: var(--device-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   width: 100%;
   max-width: 340px;
   max-height: 80%;
@@ -301,13 +301,13 @@ body {
 #modal-title {
   font-size: 14px;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 #modal-close {
   background: none;
   border: none;
-  color: var(--text);
+  color: var(--text-dim);
   font-size: 22px;
   cursor: pointer;
   padding: 4px 8px;
@@ -316,6 +316,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 12px;
+}
+
+#modal-close:hover {
+  background: var(--btn-hover);
 }
 
 #modal-body {
@@ -329,8 +334,7 @@ body {
   font-size: 12px;
   text-align: center;
   margin: 12px 0;
-  color: var(--text);
-  text-shadow: var(--glow);
+  color: var(--pet-color);
 }
 
 #modal-body button {
@@ -340,7 +344,7 @@ body {
   background: var(--btn-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 20px;
   cursor: pointer;
   min-height: 44px;
 }
@@ -360,15 +364,15 @@ body {
   background: var(--bar-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
   width: 100%;
   min-height: 44px;
   outline: none;
 }
 
 #modal-body input:focus {
-  border-color: var(--text);
-  box-shadow: var(--glow);
+  border-color: var(--bar-happy);
+  box-shadow: 0 0 0 2px rgba(195, 166, 247, 0.2);
 }
 
 /* === Overlays (new game, death, settings) === */
@@ -397,8 +401,7 @@ body {
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.2;
-  color: var(--text);
-  text-shadow: var(--glow);
+  color: var(--pet-color);
   white-space: pre;
   margin-bottom: 20px;
   min-height: 108px;
@@ -413,7 +416,7 @@ body {
 
 #new-game-form label {
   font-size: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 #pet-name-input {
@@ -423,15 +426,15 @@ body {
   background: var(--bar-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
   width: 200px;
   text-align: center;
   outline: none;
 }
 
 #pet-name-input:focus {
-  border-color: var(--text);
-  box-shadow: var(--glow);
+  border-color: var(--bar-happy);
+  box-shadow: 0 0 0 2px rgba(195, 166, 247, 0.2);
 }
 
 #start-btn,
@@ -442,9 +445,9 @@ body {
   background: var(--btn-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 24px;
   cursor: pointer;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   min-height: 44px;
 }
 
@@ -463,7 +466,7 @@ body {
   font-size: 13px;
   margin: 16px 0;
   line-height: 1.5;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 #death-msg {
@@ -480,7 +483,7 @@ body {
 
 #settings-content h3 {
   font-size: 16px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   margin-bottom: 8px;
 }
 
@@ -491,7 +494,7 @@ body {
   background: var(--btn-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 20px;
   cursor: pointer;
   min-height: 44px;
   min-width: 180px;
@@ -499,6 +502,10 @@ body {
 
 #settings-content button:hover {
   background: var(--btn-hover);
+}
+
+#settings-content button:active {
+  background: var(--btn-active);
 }
 
 /* === Utility === */
@@ -525,7 +532,7 @@ body {
   background: var(--btn-bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   cursor: pointer;
   font-family: var(--font-mono);
 }
@@ -545,7 +552,7 @@ body {
   height: 200px;
   position: relative;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
   overflow: hidden;
   margin: 12px 0;
   background: var(--bar-bg);

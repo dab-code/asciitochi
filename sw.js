@@ -1,4 +1,4 @@
-const CACHE_NAME = 'asciitochi-v3';
+const CACHE_NAME = 'asciitochi-v4';
 const ASSETS = [
   './',
   './index.html',
