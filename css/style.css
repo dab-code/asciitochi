@@ -1,0 +1,585 @@
+/* === Reset & Base === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --device-bg: #0d1117;
+  --text: #33ff33;
+  --text-dim: #1a8a1a;
+  --bar-bg: #1a1a2e;
+  --bar-fill: #33ff33;
+  --bar-low: #ff3333;
+  --bar-mid: #ffaa00;
+  --border: #1a3a1a;
+  --btn-bg: #111a11;
+  --btn-hover: #1a2e1a;
+  --btn-active: #2a4a2a;
+  --glow: 0 0 10px rgba(51, 255, 51, 0.3);
+  --status-bg: #0a0f0a;
+  --modal-bg: #0d1117ee;
+  --font-mono: 'Courier New', 'Consolas', 'Monaco', monospace;
+}
+
+/* Night theme */
+.night {
+  --text: #ffaa33;
+  --text-dim: #8a5a1a;
+  --bar-fill: #ffaa33;
+  --border: #3a2a1a;
+  --btn-bg: #1a1108;
+  --btn-hover: #2e1f0a;
+  --btn-active: #4a3518;
+  --glow: 0 0 10px rgba(255, 170, 51, 0.3);
+  --status-bg: #0f0a05;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font-mono);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* === Device Container === */
+#device {
+  position: relative;
+  width: 100%;
+  max-width: 375px;
+  min-height: 100dvh;
+  background: var(--device-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (min-width: 500px) {
+  #device {
+    min-height: 667px;
+    max-height: 812px;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    box-shadow: var(--glow), 0 0 40px rgba(0, 0, 0, 0.8);
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 50% 50%, #111 0%, #050505 100%);
+  }
+}
+
+/* === Scanline Overlay === */
+#scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* === Header === */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 1px;
+}
+
+#clock {
+  font-weight: bold;
+}
+
+#day-night-icon {
+  font-size: 18px;
+}
+
+/* === Stats === */
+#stats {
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.stat-label {
+  width: 52px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
+.stat-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--bar-bg);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: var(--bar-fill);
+  border-radius: 2px;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.stat-fill.low {
+  background: var(--bar-low);
+}
+
+.stat-fill.mid {
+  background: var(--bar-mid);
+}
+
+.stat-val {
+  width: 28px;
+  text-align: right;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+/* === Pet Viewport === */
+#viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  min-height: 200px;
+}
+
+#pet-display {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--text);
+  text-shadow: var(--glow);
+  white-space: pre;
+  min-height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pet-info {
+  text-align: center;
+  margin-top: 8px;
+}
+
+#pet-name {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+#pet-stage {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+/* === Actions === */
+#actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.action-btn {
+  font-size: 22px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s, opacity 0.3s;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+.action-btn:hover {
+  background: var(--btn-hover);
+}
+
+.action-btn:active {
+  background: var(--btn-active);
+  transform: scale(0.92);
+}
+
+.action-btn.cooldown {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.action-btn.cooldown::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* === Status Bar === */
+#status-bar {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  background: var(--status-bg);
+  letter-spacing: 0.5px;
+}
+
+#status-msg {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+/* === Modal === */
+#modal {
+  position: absolute;
+  inset: 0;
+  background: var(--modal-bg);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#modal-content {
+  background: var(--device-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 340px;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+#modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+#modal-title {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#modal-close {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#modal-body pre {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-align: center;
+  margin: 12px 0;
+  color: var(--text);
+  text-shadow: var(--glow);
+}
+
+#modal-body button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 10px 20px;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+#modal-body button:hover {
+  background: var(--btn-hover);
+}
+
+#modal-body button:active {
+  background: var(--btn-active);
+}
+
+#modal-body input {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 8px 12px;
+  background: var(--bar-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 100%;
+  min-height: 44px;
+  outline: none;
+}
+
+#modal-body input:focus {
+  border-color: var(--text);
+  box-shadow: var(--glow);
+}
+
+/* === Overlays (new game, death, settings) === */
+#new-game-overlay,
+#death-overlay,
+#settings-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--device-bg);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#new-game-content,
+#death-content,
+#settings-content {
+  text-align: center;
+  width: 100%;
+}
+
+#egg-display,
+#death-display {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--text);
+  text-shadow: var(--glow);
+  white-space: pre;
+  margin-bottom: 20px;
+}
+
+#new-game-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+#new-game-form label {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+#pet-name-input {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  padding: 10px 14px;
+  background: var(--bar-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 200px;
+  text-align: center;
+  outline: none;
+}
+
+#pet-name-input:focus {
+  border-color: var(--text);
+  box-shadow: var(--glow);
+}
+
+#start-btn,
+#restart-btn {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 12px 28px;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  min-height: 44px;
+}
+
+#start-btn:hover,
+#restart-btn:hover {
+  background: var(--btn-hover);
+}
+
+#start-btn:active,
+#restart-btn:active {
+  background: var(--btn-active);
+}
+
+#hatch-msg,
+#death-msg {
+  font-size: 13px;
+  margin: 16px 0;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+#death-msg {
+  color: var(--bar-low);
+}
+
+/* Settings */
+#settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+#settings-content h3 {
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+#settings-content button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 10px 24px;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 180px;
+}
+
+#settings-content button:hover {
+  background: var(--btn-hover);
+}
+
+/* === Utility === */
+.hidden {
+  display: none !important;
+}
+
+/* Mini-game specific */
+.minigame-choices {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.minigame-choices button {
+  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.minigame-choices button:hover {
+  background: var(--btn-hover);
+}
+
+.minigame-choices button:active {
+  background: var(--btn-active);
+}
+
+.catch-area {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  width: 100%;
+  height: 200px;
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0;
+  background: var(--bar-bg);
+}
+
+.catch-item {
+  position: absolute;
+  font-size: 20px;
+  transition: top 0.1s linear;
+}
+
+.catch-paddle {
+  position: absolute;
+  bottom: 4px;
+  font-size: 20px;
+  transition: left 0.05s;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+.pulse {
+  animation: pulse 1.5s ease infinite;
+}

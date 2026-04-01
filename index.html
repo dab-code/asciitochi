@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Asciitochi</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="device">
+    <div id="scanlines"></div>
+
+    <header id="header">
+      <span id="clock"></span>
+      <span id="day-counter"></span>
+      <span id="day-night-icon"></span>
+    </header>
+
+    <section id="stats">
+      <div class="stat-row">
+        <span class="stat-label">HUNGER</span>
+        <div class="stat-bar"><div class="stat-fill" id="hunger-bar"></div></div>
+        <span class="stat-val" id="hunger-val"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">HAPPY</span>
+        <div class="stat-bar"><div class="stat-fill" id="happy-bar"></div></div>
+        <span class="stat-val" id="happy-val"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">ENERGY</span>
+        <div class="stat-bar"><div class="stat-fill" id="energy-bar"></div></div>
+        <span class="stat-val" id="energy-val"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">CLEAN</span>
+        <div class="stat-bar"><div class="stat-fill" id="clean-bar"></div></div>
+        <span class="stat-val" id="clean-val"></span>
+      </div>
+    </section>
+
+    <section id="viewport">
+      <pre id="pet-display"></pre>
+      <div id="pet-info">
+        <div id="pet-name"></div>
+        <div id="pet-stage"></div>
+      </div>
+    </section>
+
+    <section id="actions">
+      <button class="action-btn" data-action="feed" title="Feed">&#x1F356;</button>
+      <button class="action-btn" data-action="play" title="Play">&#x1F3BE;</button>
+      <button class="action-btn" data-action="clean" title="Clean">&#x1F9F9;</button>
+      <button class="action-btn" data-action="sleep" title="Sleep">&#x1F4A4;</button>
+      <button class="action-btn" data-action="discipline" title="Discipline">&#x1F446;</button>
+      <button class="action-btn" data-action="medicine" title="Medicine">&#x1F48A;</button>
+      <button class="action-btn" data-action="game" title="Mini-Game">&#x1F3AE;</button>
+    </section>
+
+    <footer id="status-bar">
+      <span id="status-msg"></span>
+    </footer>
+
+    <!-- Modal for mini-games and dialogs -->
+    <div id="modal" class="hidden">
+      <div id="modal-content">
+        <div id="modal-header">
+          <span id="modal-title"></span>
+          <button id="modal-close">&times;</button>
+        </div>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- New game overlay -->
+    <div id="new-game-overlay" class="hidden">
+      <div id="new-game-content">
+        <pre id="egg-display"></pre>
+        <div id="new-game-form" class="hidden">
+          <label for="pet-name-input">Name your pet:</label>
+          <input type="text" id="pet-name-input" maxlength="12" placeholder="Mochi">
+          <button id="start-btn">Hatch!</button>
+        </div>
+        <div id="hatch-msg"></div>
+      </div>
+    </div>
+
+    <!-- Death overlay -->
+    <div id="death-overlay" class="hidden">
+      <div id="death-content">
+        <pre id="death-display"></pre>
+        <div id="death-msg"></div>
+        <button id="restart-btn">New Egg</button>
+      </div>
+    </div>
+
+    <!-- Settings/save overlay -->
+    <div id="settings-overlay" class="hidden">
+      <div id="settings-content">
+        <h3>Settings</h3>
+        <button id="export-btn">Export Save</button>
+        <button id="import-btn">Import Save</button>
+        <input type="file" id="import-file" class="hidden" accept=".json">
+        <button id="settings-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>
