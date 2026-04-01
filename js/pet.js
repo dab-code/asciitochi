@@ -112,6 +112,7 @@ export class Pet {
     if (isNight && !this.sleeping) energyDecay *= NIGHT_ENERGY_MULT;
     if (this.sleeping) {
       this.energy = clamp(this.energy + 0.02);
+      if (this.energy >= 100) this.sleeping = false;
     } else {
       this.energy = clamp(this.energy - energyDecay);
     }
