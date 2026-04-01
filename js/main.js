@@ -368,6 +368,15 @@ function wireSettings() {
 
   importBtn.addEventListener('click', () => importFile.click());
 
+  $('reset-btn').addEventListener('click', () => {
+    if (!confirm('Start over with a new egg? Your current pet will be gone.')) return;
+    settingsOverlay.classList.add('hidden');
+    stopGame();
+    deleteSave();
+    pet = null;
+    showNewGame();
+  });
+
   importFile.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;

@@ -512,6 +512,12 @@ body {
   background: var(--btn-active);
 }
 
+#reset-btn {
+  color: var(--bar-low);
+  border-color: var(--bar-low);
+  margin-top: 8px;
+}
+
 /* === Utility === */
 .hidden {
   display: none !important;
