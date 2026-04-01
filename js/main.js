@@ -8,6 +8,7 @@ import { savePet, loadPet, deleteSave, exportSave, importSave } from './save.js'
 import { rollSpecies, getSpecies, getRarityLabel } from './species.js';
 import { getEggSprite } from './sprites.js';
 import { openMiniGameMenu } from './minigames.js';
+import { getPersonalityLabel } from './personality.js';
 
 // ============================================================
 // DOM References
@@ -232,18 +233,24 @@ function updateUI() {
   petNameEl.textContent = pet.stage === 'egg'
     ? '???'
     : `~ ${pet.name} the ${sp?.name || '???'} ~`;
-  petStageEl.textContent = pet.getStageLabel();
+  petStageEl.textContent = pet.stage === 'egg'
+    ? ''
+    : `${pet.getStageLabel()} \u00B7 ${getPersonalityLabel(pet.personality)}`;
   statusMsg.textContent = pet.getStatusMessage();
 
   actionBtns.forEach(btn => {
     const actionId = btn.dataset.action;
-    const isSleeping = pet.sleeping && actionId !== 'sleep';
-    const cantDo = actionId === 'game'
-      ? (!pet.alive || pet.stage === 'egg')
-      : !actions.canDo(actionId, pet) && !isSleeping;
-    // Sleeping: dimmed but tappable (to wake). Cooldown/unavailable: fully blocked.
-    btn.classList.toggle('cooldown', isSleeping && !cantDo);
-    btn.classList.toggle('disabled', cantDo);
+    if (pet.sleeping) {
+      // While sleeping: buttons are dimmed but tappable (to wake pet)
+      btn.classList.remove('disabled');
+      btn.classList.toggle('cooldown', actionId !== 'sleep');
+    } else {
+      const cantDo = actionId === 'game'
+        ? (!pet.alive || pet.stage === 'egg')
+        : !actions.canDo(actionId, pet);
+      btn.classList.remove('cooldown');
+      btn.classList.toggle('disabled', cantDo);
+    }
   });
 }
 

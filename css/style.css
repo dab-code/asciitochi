@@ -196,10 +196,12 @@ body {
 }
 
 #pet-stage {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-dim);
   margin-top: 2px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  max-width: 300px;
+  line-height: 1.4;
 }
 
 /* === Actions === */

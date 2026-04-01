@@ -1,5 +1,10 @@
 // Pet class — stats, aging, evolution logic
 
+import {
+  TEMPERAMENTS, APPETITES, rollPersonality,
+  getPersonalityQuirkMessage, getSpeciesFlavorMessage,
+} from './personality.js';
+
 export const STAGES = {
   EGG: 'egg',
   BABY: 'baby',
@@ -59,6 +64,7 @@ export class Pet {
     this.birthTime = Date.now();
     this.deathTimer = 0;
     this.sleeping = false;
+    this.personality = rollPersonality();
     this._tickCount = 0;
   }
 
@@ -76,6 +82,7 @@ export class Pet {
     p.birthTime = data.birthTime;
     p.deathTimer = data.deathTimer || 0;
     p.sleeping = data.sleeping || false;
+    p.personality = data.personality || rollPersonality();
     return p;
   }
 
@@ -101,14 +108,17 @@ export class Pet {
 
     this._tickCount++;
 
-    this.hunger = clamp(this.hunger + DECAY.hunger);
+    const temper = TEMPERAMENTS[this.personality.temperament] || TEMPERAMENTS.chill;
+    const appetite = APPETITES[this.personality.appetite] || APPETITES.normal;
 
-    let happinessDecay = DECAY.happiness;
+    this.hunger = clamp(this.hunger + DECAY.hunger * appetite.hungerDecay);
+
+    let happinessDecay = DECAY.happiness * temper.happinessDecay;
     if (this.hunger > 80) happinessDecay += HUNGER_PENALTY;
     if (this.cleanliness < 20) happinessDecay += DIRTY_PENALTY;
     this.happiness = clamp(this.happiness - happinessDecay);
 
-    let energyDecay = DECAY.energy;
+    let energyDecay = DECAY.energy * temper.energyDecay;
     if (isNight && !this.sleeping) energyDecay *= NIGHT_ENERGY_MULT;
     if (this.sleeping) {
       this.energy = clamp(this.energy + 0.02);
@@ -203,6 +213,14 @@ export class Pet {
       `${n} leaves little footprints everywhere.`,
       `${n} could really use a bath.`,
     ]);
+
+    // ~30% chance of personality quirk or species flavor in idle
+    if (Math.random() < 0.3) {
+      const msg = Math.random() < 0.5
+        ? getPersonalityQuirkMessage(this.personality, n)
+        : getSpeciesFlavorMessage(this.species, n);
+      if (msg) return msg;
+    }
 
     // Mood-based idle thoughts
     if (this.happiness > 80 && this.hunger < 30) return pick([

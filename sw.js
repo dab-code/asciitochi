@@ -1,10 +1,11 @@
-const CACHE_NAME = 'asciitochi-v5';
+const CACHE_NAME = 'asciitochi-v6';
 const ASSETS = [
   './',
   './index.html',
   './css/style.css',
   './js/main.js',
   './js/pet.js',
+  './js/personality.js',
   './js/renderer.js',
   './js/sprites.js',
   './js/species.js',
